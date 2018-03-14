@@ -41,6 +41,15 @@ Vue.mixin({
   }
 })
 
+
+// 获取当前用户
+const user = api.SDK.User.current()
+
+if(user) {
+  store.commit('setUser', user)
+}
+
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

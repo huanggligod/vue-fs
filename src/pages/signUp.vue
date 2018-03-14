@@ -84,7 +84,25 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert('submit!');
+          let user = new this.$api.SDK.User()
+          user.setUsername(this.user.name)
+          user.setPassword(this.user.password)
+          user.setEmail(this.user.email)
+
+          user.signUp().then((loginUser) => {
+            this.$store.dispatch('login',loginUser) //保存到vuex
+            this.$router.go(-1)
+            this.$message({
+              message:"注册成功！",
+              type:'success'
+            })
+          }).catch(error => {
+            console.log(error)
+            this.$message({
+              message: error.message,
+              type:'error'
+            })
+          })
         } else {
           console.log('error submit!!');
           return false;
